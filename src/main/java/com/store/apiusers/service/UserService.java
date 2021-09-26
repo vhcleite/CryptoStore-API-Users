@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @Service
 public class UserService {
 
@@ -22,7 +24,7 @@ public class UserService {
     public User createUser(User user) {
         Optional<User> userOptional = repository.findById(user.getId());
         if(userOptional.isPresent()) {
-            throw new CryptoStoreException(HttpStatus.BAD_REQUEST, "Usuário já existente");
+            throw new CryptoStoreException(BAD_REQUEST, "Usuário já existente");
         }
         return this.repository.save(user);
     }
