@@ -1,6 +1,7 @@
 package com.store.apiusers.service;
 
 import com.store.apiusers.exceptions.CryptoStoreException;
+import com.store.apiusers.model.Credentials;
 import com.store.apiusers.model.User;
 import com.store.apiusers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,13 @@ public class UserService {
     public User getUserById(String id) {
         Optional<User> userOptional = this.repository.findById(id);
         return userOptional.orElseThrow(() -> new CryptoStoreException(HttpStatus.NO_CONTENT, "Usuário não encontrado"));
+    }
+
+    public void verifyCredentials(Credentials credentials) {
+        Optional<User> userOptional = this.repository.findById(credentials.getId());
+        User user =  userOptional.orElseThrow(() -> new CryptoStoreException(BAD_REQUEST, "Senha ou usuário incorreto"));
+        if(!user.getPassword().equals(credentials.getPassword())) {
+            throw new CryptoStoreException(BAD_REQUEST, "Senha ou usuário incorreto");
+        }
     }
 }
