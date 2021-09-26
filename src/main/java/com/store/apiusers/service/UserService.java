@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Service
 public class UserService {
@@ -32,7 +33,7 @@ public class UserService {
 
     public User getUserById(String id) {
         Optional<User> userOptional = this.repository.findById(id);
-        return userOptional.orElseThrow(() -> new CryptoStoreException(HttpStatus.NO_CONTENT, "Usuário não encontrado"));
+        return userOptional.orElseThrow(() -> new CryptoStoreException(NO_CONTENT, "Usuário não encontrado"));
     }
 
     public void verifyCredentials(Credentials credentials) {
